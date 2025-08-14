@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SnapDish — Images de plats qui vendent</title>
+  <meta name="description" content="SnapDish crée des visuels de plats ultra‑convaincants pour Uber Eats, Deliveroo et sites de restos. 1er visuel gratuit, livraison 24h, packs dès 10€/image." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Couleurs validées */
+      --brand-red: #C62828;    /* primaire */
+      --brand-yellow: #FFC233; /* accent */
+      --brand-green: #1F5C3E;  /* thème alternatif gardé au besoin */
+      --brand-blue: #0F4C81;   /* thème alternatif gardé au besoin */
+      --brand: var(--brand-red);    /* couleur principale en cours */
+      --accent: var(--brand-yellow);/* accent jaune constant */
+      --ink: #0C1116;
+      --bg: #FFFFFF;
+      --cream: #F3EDE2;
+      --muted: #6B7280;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);}    
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1120px;margin:auto;padding:0 20px}
+
+    /* UI */
+    .btn{display:inline-block;padding:14px 20px;border-radius:999px;background:linear-gradient(135deg, var(--brand), var(--accent));color:#111;font-weight:700;box-shadow:var(--shadow);transition:transform .15s ease}
+    .btn:hover{transform:translateY(-2px)}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+    .nav a{margin-left:18px;font-weight:600;color:var(--brand)}
+    .logo-wrap{display:flex;align-items:center;gap:12px}
+    .pill{padding:6px 10px;border-radius:999px;background:var(--brand-yellow);color:#111;font-weight:700}
+
+    .hero{padding:72px 0 48px;background:linear-gradient(180deg, rgba(255,194,51,.15), rgba(198,40,40,.05));}
+    .hero h1{font-size:44px;line-height:1.1;margin:12px 0;color:var(--brand)}
+    .sub{font-size:18px;color:#374151;max-width:760px}
+
+    .grid{display:grid;gap:24px}
+    @media(min-width:900px){.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:1.2fr .8fr}}
+
+    .card{background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+    .check{display:flex;gap:10px;align-items:flex-start}
+    .check svg{flex:0 0 22px}
+
+    section{padding:72px 0}
+    .section-title{font-size:32px;margin:0 0 12px;color:var(--brand)}
+    .muted{color:var(--muted)}
+
+    /* Stats */
+    .impact-stat{display:flex;align-items:center;gap:12px}
+    .impact-stat strong{background:linear-gradient(135deg, var(--brand), var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+    /* Pricing */
+    .pricing{display:grid;gap:20px}
+    @media(min-width:900px){.pricing{grid-template-columns:repeat(3,1fr)}}
+    .price-card{border:1px solid #eee;border-radius:var(--radius);padding:28px;background:#fff;box-shadow:var(--shadow);position:relative}
+    .price-card h3{margin:0 0 6px;color:var(--brand)}
+    .price{font-size:40px;margin:10px 0;color:var(--accent)}
+    .badge{position:absolute;top:14px;right:14px;background:linear-gradient(135deg, var(--brand), var(--accent));color:#111;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900}
+
+    /* Avant/Après harmonisé */
+    .before-after{display:grid;grid-template-columns:1fr;gap:16px}
+    @media(min-width:900px){.before-after{grid-template-columns:1fr 1fr}}
+    .panel{
+      position:relative; height:220px; border-radius:16px; overflow:hidden;
+      border:2px solid rgba(255,194,51,.6); /* jaune */
+      background:#f9fafb;
+    }
+    .panel.after{background:linear-gradient(135deg, rgba(255,194,51,.15), rgba(198,40,40,.08));}
+    .panel .tag{position:absolute;top:12px;left:12px;background:linear-gradient(135deg, var(--brand), var(--accent));color:#111;font-weight:900;padding:6px 10px;border-radius:999px}
+    .panel .center{height:100%;display:flex;align-items:center;justify-content:center;color:#374151;font-weight:600}
+
+    /* Footer */
+    footer{padding:36px 0;border-top:4px solid var(--accent);color:#6B7280}
+  </style>
+  <script>
+    // Thèmes conservés (au cas où) avec accent jaune constant
+    function setTheme(name){
+      const m = getComputedStyle(document.documentElement);
+      const map={red:m.getPropertyValue('--brand-red'),green:m.getPropertyValue('--brand-green'),blue:m.getPropertyValue('--brand-blue')};
+      if(map[name]) document.documentElement.style.setProperty('--brand', map[name]);
+    }
+  </script>
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SnapDish",
+    "url": "https://snapdish.example",
+    "logo": "https://snapdish.example/logo.svg",
+    "description": "Création d'images de plats générées par IA pour menus de livraison.",
+    "areaServed": "Lyon, France"
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo-wrap">
+        <!-- Logo validé (avec fond). Remplacez src par votre fichier final -->
+        <div style="background:var(--brand); border-radius:12px; padding:6px; display:flex; align-items:center; gap:10px">
+          <img src="assets/snapdish-logo-base.png" alt="SnapDish" style="height:36px; width:auto; display:block;" />
+          <strong style="color:#fff;">SnapDish</strong>
+        </div>
+        <span class="pill">1er visuel offert</span>
+      </div>
+      <nav>
+        <a href="#accueil">Accueil</a>
+        <a href="#impact">Impact</a>
+        <a href="#prix">Prix</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="accueil" class="hero">
+    <div class="container grid grid-2">
+      <div>
+        <h1>Des photos de plats qui vendent — à Lyon.</h1>
+        <p class="sub">Nous illustrons vos plats non photographiés sur Uber Eats & Deliveroo avec des images IA réalistes et conformes aux plateformes. Livraison en 24h. <strong>Essai gratuit sur 1 plat.</strong></p>
+        <div style="margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <a class="btn" href="#contact">Recevoir mon visuel gratuit</a>
+          <div style="display:flex;gap:8px">
+            <button class="btn" style="padding:8px 12px" onclick="setTheme('red')">Rouge</button>
+            <button class="btn" style="padding:8px 12px" onclick="setTheme('green')">Vert</button>
+            <button class="btn" style="padding:8px 12px" onclick="setTheme('blue')">Bleu</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Comment ça marche</h3>
+        <div class="check"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="var(--brand)" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><p>Nous détectons les plats sans photo sur votre menu de livraison.</p></div>
+        <div class="check"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="var(--brand)" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><p>Vous validez un style fidèle au plat.</p></div>
+        <div class="check"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="var(--brand)" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><p>Nous livrons des visuels optimisés pour Uber Eats & Deliveroo.</p></div>
+      </div>
+    </div>
+  </main>
+
+  <section id="impact">
+    <div class="container">
+      <h2 class="section-title">Notre impact</h2>
+      <p class="muted">Des visuels qui augmentent la conversion et la valeur du panier. Données observées sur des restaurants comparables.</p>
+
+      <div class="grid grid-3" style="margin-top:18px">
+        <div class="card impact-stat"><strong style="font-size:32px">+24–35%</strong><span>de commandes sur plats illustrés</span></div>
+        <div class="card impact-stat"><strong style="font-size:32px">×1.4</strong><span>de clics sur les plats mis en avant</span></div>
+        <div class="card impact-stat"><strong style="font-size:32px">24h</strong><span>délai moyen de livraison</span></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <h3>Avant / Après</h3>
+        <p class="muted">Remplacez par vos cas réels.</p>
+        <div class="before-after">
+          <div class="panel">
+            <span class="tag">Avant</span>
+            <div class="center">Sans photo / peu engageant</div>
+          </div>
+          <div class="panel after">
+            <span class="tag">Après</span>
+            <div class="center">Photo IA optimisée (format plateforme)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prix">
+    <div class="container">
+      <h2 class="section-title">Prix simples & transparents</h2>
+      <p class="muted">Vous ne payez que ce dont vous avez besoin. 1er visuel offert.</p>
+
+      <div class="pricing" style="margin-top:18px">
+        <div class="price-card"><span class="badge">ESSAI</span>
+          <h3>Découverte</h3>
+          <div class="price">15€</div>
+          <p class="muted">1 image haute qualité</p>
+          <a class="btn" href="#contact">Commander</a>
+        </div>
+        <div class="price-card">
+          <h3>Pack 5</h3>
+          <div class="price">60€</div>
+          <p class="muted">5 images (12€/image)</p>
+          <a class="btn" href="#contact">Commander</a>
+        </div>
+        <div class="price-card">
+          <h3>Pack 10</h3>
+          <div class="price">100€</div>
+          <p class="muted">10 images (10€/image)</p>
+          <a class="btn" href="#contact">Commander</a>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3>Abonnement Pro</h3>
+        <p><strong>150€/mois</strong> — jusqu'à 20 images/mois, priorisation, variations de menu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <p class="muted">Dites‑nous quel plat vous souhaitez illustrer. Nous revenons vers vous sous 24h.</p>
+      <div class="grid grid-2">
+        <form class="card" name="contact" netlify>
+          <label>Nom du restaurant<br><input name="restaurant" required style="width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px"></label><br>
+          <label>Lien Uber Eats / Deliveroo<br><input name="lien" required style="width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px"></label><br>
+          <label>Plat à illustrer<br><input name="plat" required style="width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px"></label><br>
+          <label>Email<br><input type="email" name="email" required style="width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px"></label><br>
+          <label>Téléphone (optionnel)<br><input name="tel" style="width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px"></label><br>
+          <button class="btn" type="submit">Envoyer ma demande</button>
+        </form>
+        <div class="card">
+          <h3>Infos</h3>
+          <p><strong>Zone :</strong> Lyon & Métropole</p>
+          <p><strong>Email :</strong> hello@snapdish.fr</p>
+          <p><strong>WhatsApp :</strong> +33 6 00 00 00 00</p>
+          <p class="muted">RGPD : vous pouvez demander la suppression de vos données à tout moment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <small>© <span id="y"></span> SnapDish — Tous droits réservés</small>
+      <small class="muted">Mentions légales · Politique de confidentialité</small>
+    </div>
+  </footer>
+
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
